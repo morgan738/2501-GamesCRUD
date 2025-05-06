@@ -1,0 +1,16 @@
+.gamesContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gamesContainer > .game {
+    margin: 1rem;
+    padding: 1rem;
+    border: 2px solid black;
+    justify-content: center;
+}
+
+.game > img {
+    width: 250px;
+    height: 325px;
+}
