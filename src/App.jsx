@@ -4,9 +4,11 @@ import axios from "axios"
 import {Routes, Route} from 'react-router-dom'
 import SingleGame from "./components/Games/SingleGame"
 import NewGameForm from "./components/Games/NewGameForm"
+import Search from "./components/Games/Search"
 
 function App() {
   const [allGames, setAllGames] = useState([])
+  const [searchResults, setSearchResults] = useState([])
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -30,10 +32,11 @@ function App() {
      
 
       <Routes>
-        <Route path="/" element={<AllGames allGames={allGames} setAllGames={setAllGames}/>}/>
-        <Route path="/games" element={<AllGames allGames={allGames} setAllGames={setAllGames}/>}/>
+        <Route path="/" element={<AllGames allGames={allGames} setAllGames={setAllGames} setSearchResults={setSearchResults} searchResults={searchResults}/>}/>
+        <Route path="/games" element={<AllGames allGames={allGames} setAllGames={setAllGames} setSearchResults={setSearchResults} searchResults={searchResults}/>}/>
         <Route path="/games/:id" element={<SingleGame allGames={allGames} setAllGames={setAllGames}/>}/>
         <Route path="/games/addNew" element={<NewGameForm setAllGames={setAllGames} allGames={allGames}/>}/>
+        <Route path="/games/search/?" element={<Search allGames={allGames}/>}/>
       </Routes>
     </div>
   )

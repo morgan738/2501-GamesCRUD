@@ -21,12 +21,16 @@ const SingleGame = ({allGames, setAllGames}) => {
             {
                 game ? (
                     <div>
+                        <hr/>
                         <UpdateGameForm game={game} setAllGames={setAllGames} allGames={allGames}/>
-                        <h3>{game.name}</h3>
-                        <p>{game.description}</p>
-                        <p>{game.price}</p>
-                        <img src={game.image ? game.image : null} alt={game.name}/>
-                        <p>Rating: {game.rating} / 5</p>
+                        <hr/>
+                        <div className="game">
+                            <h3>{game.name}</h3>
+                            <p>Description: {game.description}</p>
+                            <p>Price: ${game.price/100}</p>
+                            <img src={game.image ? game.image : null} alt={game.name}/>
+                            <p>Rating: {game.rating} / 5</p>
+                        </div>
                     </div>
                 ) : (
                     <h3>Loading...</h3>
