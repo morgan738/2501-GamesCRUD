@@ -2,7 +2,7 @@ import "./games.css"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
-const AllGames = ({allGames, setAllGames, setSearchResults, searchResults}) => {
+const AllGames = ({allGames, setAllGames, user, favorites, setFavorites}) => {
     const navigate = useNavigate()
 
     const deleteGame = async (id) => {
@@ -24,9 +24,36 @@ const AllGames = ({allGames, setAllGames, setSearchResults, searchResults}) => {
         
     }
 
+    const checkFav = (gameId) => {
+        return favorites.find((favorite) => {
+            return favorite.id === gameId
+        })
+    }
+
+    const addToFav = async (gameId) => {
+        try {
+            const {data} = await axios.post('https://the-store-3j8t.onrender.com/api/favorites', {games_id: gameId}, {
+                headers:{
+                    "Authorization": `${window.localStorage.getItem('token')}`
+                }
+            })
+            console.log(data)
+            setFavorites([...favorites, data])
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <div>
-            <h2>Check out all our games or <Link to='/games/addNew'>Add a new one</Link>!</h2>
+            {
+                user.id ? (
+                    <h2>Check out all our games or <Link to='/games/addNew'>Add a new one</Link>!</h2>
+                ) : (
+                    <h2>Check out all our games </h2>
+                )
+            }
+            
             <h3>Search for a game by name here: </h3>
             <form action={searchForGames}>
                 <input type="text" name="searchBar" />
@@ -45,7 +72,26 @@ const AllGames = ({allGames, setAllGames, setSearchResults, searchResults}) => {
                                     <p>Price: ${game.price/100}</p>
                                     <img src={game.image ? game.image : null}  alt={game.name}/>
                                     <br/>
-                                    <button onClick={() => deleteGame(game.id)}>Remove</button>
+                                    {
+                                        user.id ? (
+                                            <div>
+                                                <button onClick={() => deleteGame(game.id)}>Remove</button>
+                                                {
+                                                    checkFav(game.id) ? (
+                                                        <button disabled={true}>Favorited</button>
+                                                    ) : (
+                                                        <button onClick={() => addToFav(game.id)}>Add to Favorites</button>
+                                                    )
+                                                }
+                                                
+                                            </div>
+                                            
+                                        )
+                                             : (
+                                                null
+                                             )
+                                    }
+                                    
                                 </div>
                             )
                         })

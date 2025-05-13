@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom"
 import UpdateGameForm from "./UpdateGameForm"
 
-const SingleGame = ({allGames, setAllGames}) => {
+const SingleGame = ({allGames, setAllGames, user}) => {
     /*
     const params = window.location.hash.slice(1)
     {
@@ -22,7 +22,14 @@ const SingleGame = ({allGames, setAllGames}) => {
                 game ? (
                     <div>
                         <hr/>
-                        <UpdateGameForm game={game} setAllGames={setAllGames} allGames={allGames}/>
+                        {
+                            user.id ? (
+                                <UpdateGameForm game={game} setAllGames={setAllGames} allGames={allGames}/>
+                            ) : (
+                                <h3>Sign up to edit this game!</h3>
+                            )
+                        }
+                        
                         <hr/>
                         <div className="game">
                             <h3>{game.name}</h3>
